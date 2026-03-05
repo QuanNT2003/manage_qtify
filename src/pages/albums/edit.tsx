@@ -23,6 +23,15 @@ export const AlbumEdit = () => {
       <Form
         {...formProps}
         layout="vertical"
+        onFinish={(values) => {
+          console.log("Album edit values:", values);
+          formProps.onFinish?.({
+            ...values,
+            release_date: values.release_date
+              ? dayjs(values.release_date).format("YYYY-MM-DD")
+              : undefined,
+          });
+        }}
         initialValues={{
           ...formProps.initialValues,
           release_date: formProps.initialValues?.release_date

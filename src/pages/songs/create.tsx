@@ -27,8 +27,16 @@ export const SongCreate = () => {
     optionLabel: "title",
     optionValue: "id",
     pagination: {
-      pageSize: 1000,
+      pageSize: 10,
     },
+    onSearch: (value) => [
+      {
+        field: "title",
+        operator: "contains",
+        value,
+      },
+    ],
+    debounce: 500,
   });
 
   const { selectProps: genreSelectProps } = useSelect({
@@ -78,7 +86,12 @@ export const SongCreate = () => {
           <Select {...genreSelectProps} mode="multiple" allowClear />
         </Form.Item>
         <Form.Item label={"Album"} name={["album_id"]}>
-          <Select {...albumSelectProps} allowClear />
+          <Select
+            {...albumSelectProps}
+            allowClear
+            showSearch
+            filterOption={false}
+          />
         </Form.Item>
         <Form.Item
           label={"Duration (seconds)"}

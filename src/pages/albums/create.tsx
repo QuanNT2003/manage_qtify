@@ -1,6 +1,7 @@
 import { Create, useForm, useSelect } from "@refinedev/antd";
 import { Form, Input, Select, DatePicker, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+import dayjs from "dayjs";
 
 export const AlbumCreate = () => {
   const { formProps, saveButtonProps } = useForm({});
@@ -13,7 +14,19 @@ export const AlbumCreate = () => {
 
   return (
     <Create saveButtonProps={saveButtonProps}>
-      <Form {...formProps} layout="vertical">
+      <Form
+        {...formProps}
+        layout="vertical"
+        onFinish={(values) => {
+          console.log("Album create values:", values);
+          formProps.onFinish?.({
+            ...values,
+            release_date: values.release_date
+              ? dayjs(values.release_date).format("YYYY-MM-DD")
+              : undefined,
+          });
+        }}
+      >
         <Form.Item
           label={"Title"}
           name={["title"]}
